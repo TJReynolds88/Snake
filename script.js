@@ -1,7 +1,6 @@
-var canvas = document.getElementById("canvas");
-
-var ctx = canvas.getContext("2d");
-var board = [
+// Board
+var game = {
+    board: [
     "###############",
     "#             #",
     "#             #",
@@ -11,34 +10,39 @@ var board = [
     "#             #",
     "#             #",
     "#             #",
-    "###############",
-];
+    "###############"
+]
+};
 
-var currentYoffset = 0;
-var squareSize = 30;
+var snake = {
+    parts: [
+        {x: 4, y: 2}, // Head
+        {x: 3, y: 2}, // Middle
+        {x: 2, y: 2}, // Tail
+    ],
+    facing: "E"
+};
 
-board.forEach(function checkLine(line) {
-    line = line.split('');
-    var currentXoffset = 0;
-    line.forEach(function checkCharacter(character) {
-        if(character == '#') {
-            ctx.fillStyle = "black";
-            ctx.fillRect(currentXoffset, currentYoffset, squareSize, squareSize);
-        }
-        currentXoffset += squareSize;
-    });
-    currentYoffset += squareSize;
-})
+var graphics = {
+    canvas: document.getElementById("canvas"),
+    squareSize: 30,
+    drawBoard: function (ctx) {
+        var ctx = graphics.canvas.getContext("2d");
+        var currentYoffset = 0;
+        game.board.forEach(function checkLine(line) {
+            line = line.split('');
+            var currentXoffset = 0;
+            line.forEach(function checkCharacter(character) {
+                if (character == '#') {
+                    ctx.fillStyle = "black";
+                    ctx.fillRect(currentXoffset, currentYoffset, graphics.squareSize, graphics.squareSize);
+                }
+                currentXoffset += graphics.squareSize;
+            });
+            currentYoffset += graphics.squareSize;
+        });
+    }
+};
 
-
-function draw() {
-    
-ctx.fillStyle = "black";
-ctx.fillRect(0,0,30,30);
-
-}
-
-
-function remove() {
-    ctx.clearRect(0,0, 300, 300);
-}
+graphics.drawBoard();
+graphics.drawSnake();
