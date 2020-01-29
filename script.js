@@ -27,7 +27,6 @@ var graphics = {
     canvas: document.getElementById("canvas"),
     squareSize: 30,
     drawBoard: function (ctx) {
-        var ctx = graphics.canvas.getContext("2d");
         var currentYoffset = 0;
         game.board.forEach(function checkLine(line) {
             line = line.split('');
@@ -41,8 +40,21 @@ var graphics = {
             });
             currentYoffset += graphics.squareSize;
         });
+    },
+    drawSnake: function(ctx) {
+        snake.parts.forEach(function drawPart(part) {
+            var partXlocation = part.x * graphics.squareSize;
+            var partYlocation = part.y * graphics.squareSize;
+            ctx.fillStyle = "green";
+            ctx.fillRect(partXlocation, partYlocation, graphics.squareSize, graphics.squareSize);
+        });
+    },
+    drawGame: function() {
+        var ctx = graphics.canvas.getContext("2d");
+        graphics.drawBoard(ctx);
+        graphics.drawSnake(ctx);
+
     }
 };
 
-graphics.drawBoard();
-graphics.drawSnake();
+graphics.drawGame();
